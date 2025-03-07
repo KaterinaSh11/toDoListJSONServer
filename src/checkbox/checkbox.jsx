@@ -1,8 +1,6 @@
-import styles from './checkbox.module.css';
-
 export const Checkbox = ({isChecked, onChange}) => {
 	return (
-		<label className="checkbox-wrapper">
+		<label>
 			<input
 				type="checkbox"
 				className="checkbox-element"
