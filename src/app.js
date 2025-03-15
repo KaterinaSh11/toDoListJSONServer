@@ -1,74 +1,48 @@
 import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import { requestGetToDo } from './services/toDoGet';
-import { Form } from './components/form';
-import { List } from './components/list';
+import { ControlPanel } from './components/controlPanel/ControlPanel';
+import { TodoList } from './components/todoList/TodoList';
 
 export const App = () => {
 	const [tasks, setTasks] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [title, setTitle] = useState('');
 	const [error, setError] = useState('');
 	const [refreshToDo, setRefreshToDo] = useState(false);
 	const [isSorted, setIsSorted] = useState(false);
-	const [changeById, setChangeById] = useState(0);
+
 
 	useEffect(() => {
-		setIsLoading(true);
 
 		requestGetToDo()
 			.then((data) => {
 				setTasks(data);
-				if (isSorted) {
-					sortByTitle(isSorted);
-				}
 			})
-			.finally(() => setIsLoading(false));
 	}, [refreshToDo]);
 
-	const sortByTitle = (sorting) => {
-		if (sorting) {
-			setTasks((prevTasks) =>
-				[...prevTasks].sort((a, b) => {
-					if (a.title < b.title) {
-						return -1;
-					}
-					if (a.title > b.title) {
-						return 1;
-					}
-					return 0;
-				}),
-			);
-		} else {
-			setRefreshToDo(!refreshToDo);
-		}
-		setIsSorted(sorting);
-	};
+	const sortedTodos = isSorted
+		? tasks.toSorted((a, b) => a.title.localeCompare(b.title))
+		: tasks;
 
 	return (
 		<div className={styles.app}>
-			<Form
-				error={error}
-				isSorted={isSorted}
-				title={title}
-				refreshToDo={refreshToDo}
-				setRefreshToDo={setRefreshToDo}
-				setTitle={setTitle}
-				setError={setError}
-				setChangeById={setChangeById}
-				changeById={changeById}
-				tasks={tasks}
-				sortByTitle={sortByTitle}
-			/>
-			<List
-				isLoading={isLoading}
-				tasks={tasks}
-				setRefreshToDo={setRefreshToDo}
-				refreshToDo={refreshToDo}
-				setError={setError}
-				setChangeById={setChangeById}
-				setTitle={setTitle}
-			/>
+			<div className={styles.content}>
+				<ControlPanel
+					error={error}
+					isSorted={isSorted}
+					refreshToDo={refreshToDo}
+					setRefreshToDo={setRefreshToDo}
+					setError={setError}
+					tasks={tasks}
+					setTasks={setTasks}
+					setIsSorted={setIsSorted}
+				/>
+				<TodoList
+					setRefreshToDo={setRefreshToDo}
+					refreshToDo={refreshToDo}
+					setError={setError}
+					sortedTodos={sortedTodos}
+				/>
+			</div>
 		</div>
 	);
 };

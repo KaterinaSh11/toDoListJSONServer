@@ -1,0 +1,62 @@
+.task {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+	position: relative;
+	gap: 4px;
+}
+
+.task span {
+	flex: 1;
+}
+
+.input-group {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+input {
+	flex: 1;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	padding: 8px 12px;
+	background-color: #90a5d0;
+	color: rgb(61, 61, 61);
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	white-space: nowrap;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+button:active {
+	background-color: #012a57;
+}
+
+.delete {
+	background-color: #d3597e;
+}
+
+.delete:hover {
+	background-color: #b02a37;
+}
